@@ -1,15 +1,31 @@
 #include <stdio.h>
-#include "JEAlgorithms.hpp"
 #include "sorting.hpp"
+#include "utility.h"
+#include "recursion.h"
 
-int main(int argc, char **argv)
+#define MAX 50
+
+int main()
 {
-	int A[]={4,5,6,1,2,3,11,99,23,65,47,28,14,22};
+    int A[MAX];
+
+    Utility::fillArrayWithRandom(A,MAX);
     
-    Sorting::display(A,14);
-//    Sorting::mergeSort(A,0,13);
-    Sorting::quickSort(A,0,13);
-    Sorting::display(A,14);
+    Utility::display(A,MAX);
+
+    Sorting::mergeSort(A,0,MAX-1);
+
+    Utility::display(A,MAX);
+
+    Utility::fillArrayWithRandom(A,MAX);
+
+    Utility::display(A,MAX);
+
+    Sorting::quickSort(A,0,MAX-1);
+
+    Utility::display(A,MAX);
+
+    Recursion::HanoiMoveDisk(5);
 
 	return 0;
 }
