@@ -9,15 +9,15 @@ public:
 
     ~Sorting();
     
-    static void merge(int A[],int p, int q, int r);
-
     static void mergeSort(int A[], int p, int r);
     
     static void quickSort(int A[], int p, int r);
 
-    static int partition(int A[],int p, int r);
+    static void insertionSort(int A[], int n);
 
-    static int quickSelect(int A[], int p, int r, int k);
+    static void selectionSort(int A[], int n);
+
+    static void bubbleSort(int A[], int n);
 };
 
 #endif // SORTING_HPP
