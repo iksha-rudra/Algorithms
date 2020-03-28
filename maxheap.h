@@ -1,6 +1,7 @@
 #ifndef HEAP_H
 #define HEAP_H
 
+#define MAX_HEAP_SIZE 100
 
 class MaxHeap
 {
@@ -9,19 +10,37 @@ public:
 
     MaxHeap();
 
-    static void heapify(int A[],int i,int n);
+    MaxHeap(int A[], int size);
 
-    static void buildHeap(int A[], int n);
+    void sort();
 
-    static void sort(int A[], int n);
+    int extractMax();
 
-    static int extractMax(int A[], int n);
+    void increaseKey(int i, int key);
 
-    static int increaseKey(int A[], int n);
+    void decreaseKey(int i, int key);
 
-    static int decreaseKey(int A[], int n);
+    void insert(int key);
 
-    static int insert(int A[], int n);
+    void display();
+
+private:
+
+    int m_Array[MAX_HEAP_SIZE];
+
+    int m_size;
+
+    void heapify(int i, int n);
+
+    void buildHeap();
+
+    int parent(int i);
+
+    int left(int i);
+
+    int right(int i);
+
+//    void _heapify(int i, int A[], int n);
 };
 
 #endif // HEAP_H

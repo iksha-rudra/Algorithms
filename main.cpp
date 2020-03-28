@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include "sorting.hpp"
 #include "utility.h"
-#include "recursion.h"
 #include "maxheap.h"
+#include "sorting.hpp"
 
 #define MAX 10
 
@@ -11,39 +10,26 @@ int main()
     int A[MAX];
 
     Utility::fillArrayWithRandom(A,MAX);
-    
-    Utility::display(A,MAX);
-
-    MaxHeap::sort(A,MAX);
-//    MaxHeap::buildHeap(A,MAX);
 
     Utility::display(A,MAX);
 
-    bool sorted = Utility::testSorted(A,MAX);
+    Sorting::bubbleSort(A,MAX);
 
-    if( sorted )
-    {
-        printf("Elements are sorted\n");
-    }
-    else
-    {
-        printf("Elements are not sorted\n");
-    }
+    Utility::display(A,MAX);
 
+//    MaxHeap Mheap(A,MAX);
 
-//    Sorting::mergeSort(A,0,MAX-1);
+////    Mheap.sort();
 
-//    Utility::display(A,MAX);
+//    Mheap.display();
 
-//    Utility::fillArrayWithRandom(A,MAX);
+//    printf("%d\n",Mheap.extractMax());
 
-//    Utility::display(A,MAX);
+//    Mheap.increaseKey(3,999);
 
-//    Sorting::quickSort(A,0,MAX-1);
+//    Mheap.decreaseKey(3,0);
 
-//    Utility::display(A,MAX);
-
-//    Recursion::HanoiMoveDisk(5);
+//    printf("%d\n",Mheap.extractMax());
 
 	return 0;
 }

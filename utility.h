@@ -20,6 +20,8 @@ public:
     static int partition(int A[],int p, int r);
 
     static void merge(int A[],int p, int q, int r);
+
+    static void display(char A[], int size);
 };
 
 #endif // UTILITY_H

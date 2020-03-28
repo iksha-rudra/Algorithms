@@ -18,6 +18,10 @@ public:
     static void selectionSort(int A[], int n);
 
     static void bubbleSort(int A[], int n);
+
+    static void countingSort(int A[], int n);
+
+    static void shellSort(int A[], int n);
 };
 
 #endif // SORTING_HPP

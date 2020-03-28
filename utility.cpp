@@ -15,7 +15,7 @@ void Utility::fillArrayWithRandom( int A[], int size )
 
     srand(time(0));
 
-    std::generate(v1.begin(),v1.end(),[]{return rand() % 1000;});
+    std::generate(v1.begin(),v1.end(),[]{return rand() % 100;});
 
     std::vector<int>::iterator i1;
 
@@ -34,6 +34,18 @@ void Utility::display(int A[], int size)
     for(int i=0;i<size;i++)
     {
         printf("%d->",A[i]);
+    }
+
+    printf("\n");
+}
+
+void Utility::display(char A[], int size)
+{
+    printf("Elements are: ");
+
+    for(int i=0;i<size;i++)
+    {
+        printf("%c->",A[i]);
     }
 
     printf("\n");

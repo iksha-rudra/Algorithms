@@ -1,20 +1,34 @@
 #include "maxheap.h"
 #include "utility.h"
+#include <stdio.h>
 
-MaxHeap::MaxHeap()
+MaxHeap::MaxHeap():
+    m_size(0)
 {
 
 }
 
-void MaxHeap::heapify(int A[], int i, int n)
+MaxHeap::MaxHeap(int A[], int size)
 {
-    int l = 2*i+1;
+    for(int i = 0; i < size; i++)
+    {
+        m_Array[i] = A[i];
+    }
 
-    int r = 2*i+2;
+    m_size = size;
+
+    buildHeap();
+}
+
+void MaxHeap::heapify(int i, int n)
+{
+    int l = left(i);
+
+    int r = right(i);
 
     int largest;
 
-    if ( l < n && A[l] > A[i])
+    if ( l < n && m_Array[l] > m_Array[i])
     {
         largest = l;
     }
@@ -23,65 +37,142 @@ void MaxHeap::heapify(int A[], int i, int n)
         largest = i;
     }
 
-    if( r < n && A[r] > A[largest])
+    if( r < n && m_Array[r] > m_Array[largest])
     {
         largest = r;
     }
 
     if( largest != i)
     {
-        Utility::swap(A[i],A[largest]);
+        Utility::swap(m_Array[i],m_Array[largest]);
     }
     else
     {
         return;
     }
 
-    heapify(A, largest, n);
+    heapify(largest,n);
 }
 
-void MaxHeap::buildHeap(int A[], int n)
+void MaxHeap::buildHeap()
 {
-    for(int i = n/2-1; i >= 0; i--)
+    for(int i = m_size/2-1; i >= 0; i--)
     {
-        heapify(A, i, n);
+        heapify(i,m_size);
     }
 }
 
-void MaxHeap::sort(int A[], int n)
+void MaxHeap::sort()
 {
-    buildHeap(A, n);
+    buildHeap();
 
-    int j = 0;
+    int j=1;
 
-    for(int i = n-1; i > 0; i--)
+    int n = m_size;
+
+    for(int i = m_size-1; i > 0; i--)
     {
-        Utility::swap(A[0],A[i]);
+        Utility::swap(m_Array[0],m_Array[i]);
 
         j++;
 
-        heapify(A,0,n-j);
+        heapify(0, n-j);
     }
 }
 
-int MaxHeap::extractMax(int A[], int n)
+int MaxHeap::extractMax()
 {
+    int max;
 
+    if( !m_size )
+    {
+        return -1;
+    }
+    else
+    {
+        max = m_Array[0];
+
+        m_size--;
+
+        m_Array[0] = m_Array[m_size];
+
+        heapify(0, m_size);
+    }
+
+    return max;
 }
 
-int MaxHeap::increaseKey(int A[], int n)
+void MaxHeap::increaseKey(int i, int key)
 {
+    if( i < 0 && m_size >= i)
+    {
+        return;
+    }
 
+    if(m_Array[i] > key)
+    {
+        printf("Error:\n");
+
+        return;
+    }
+
+    m_Array[i] = key;
+
+    while( i > 0 &&
+           m_Array[parent(i)] < m_Array[i])
+    {
+        Utility::swap(m_Array[parent(i)] , m_Array[i]);
+
+        i = parent(i);
+    }
 }
 
-int MaxHeap::decreaseKey(int A[], int n)
+void MaxHeap::decreaseKey(int i, int key)
 {
+    if( i < 0 && m_size >= i)
+    {
+        return;
+    }
 
+    if(m_Array[i] < key)
+    {
+        printf("Error:\n");
+
+        return;
+    }
+
+    m_Array[i] = key;
+
+    heapify(i, m_size);
 }
 
-int MaxHeap::insert(int A[], int n)
+void MaxHeap::insert(int key)
 {
+    m_Array[m_size] = -9999;
 
+    m_size++;
+
+    increaseKey(m_size-1,key);
+}
+
+void MaxHeap::display()
+{
+    Utility::display(m_Array, m_size);
+}
+
+int MaxHeap::parent(int i)
+{
+    return (i-1)/2;
+}
+
+int MaxHeap::left(int i)
+{
+    return (2*i+1);
+}
+
+int MaxHeap::right(int i)
+{
+    return (2*i+2);
 }
 
 
