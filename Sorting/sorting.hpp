@@ -19,9 +19,7 @@ public:
 
     static void bubbleSort(int A[], int n);
 
-    static void countingSort(int A[], int n);
-
-    static void shellSort(int A[], int n);
+    static void countingSort(int A[], int n,  int range);
 };
 
 #endif // SORTING_HPP

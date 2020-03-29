@@ -1,5 +1,5 @@
 #include "maxheap.h"
-#include "utility.h"
+#include "General/utility.h"
 #include <stdio.h>
 
 MaxHeap::MaxHeap():

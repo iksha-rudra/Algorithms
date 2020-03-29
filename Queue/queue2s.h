@@ -1,7 +1,7 @@
 #ifndef QUEUE2S_H
 #define QUEUE2S_H
 
-#include "linkedstack.h"
+#include "Stack/linkedstack.h"
 
 class Queue2S
 {

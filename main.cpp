@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "utility.h"
-#include "maxheap.h"
-#include "sorting.hpp"
+#include "General/utility.h"
+#include "Heap/minheap.h"
+#include "Sorting/sorting.hpp"
 
 #define MAX 10
 
@@ -13,23 +13,14 @@ int main()
 
     Utility::display(A,MAX);
 
-    Sorting::bubbleSort(A,MAX);
+    MinHeap Mheap(A,MAX);
 
-    Utility::display(A,MAX);
+    Mheap.display();
 
-//    MaxHeap Mheap(A,MAX);
-
-////    Mheap.sort();
-
-//    Mheap.display();
-
-//    printf("%d\n",Mheap.extractMax());
-
-//    Mheap.increaseKey(3,999);
-
-//    Mheap.decreaseKey(3,0);
-
-//    printf("%d\n",Mheap.extractMax());
+    for(int i=0; i<MAX; i++)
+    {
+        printf("%d\n",Mheap.extractMin());
+    }
 
 	return 0;
 }

@@ -1,6 +1,6 @@
 #include "stack.h"
 #include <stdio.h>
-#include "utility.h"
+#include "General/utility.h"
 
 Stack::Stack():
     m_top(-1)

@@ -1,7 +1,7 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#define MAX_HEAP_SIZE 100
+#define HEAP_SIZE 100
 
 class MaxHeap
 {
@@ -26,7 +26,7 @@ public:
 
 private:
 
-    int m_Array[MAX_HEAP_SIZE];
+    int m_Array[HEAP_SIZE];
 
     int m_size;
 
@@ -39,8 +39,6 @@ private:
     int left(int i);
 
     int right(int i);
-
-//    void _heapify(int i, int A[], int n);
 };
 
 #endif // HEAP_H

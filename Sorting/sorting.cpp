@@ -1,5 +1,5 @@
 #include "sorting.hpp"
-#include "utility.h"
+#include "General/utility.h"
 #include <stdio.h>
 
 Sorting::Sorting()
@@ -97,5 +97,46 @@ void Sorting::bubbleSort(int A[], int n)
         {
             break;
         }
+    }
+}
+
+void Sorting::countingSort(int A[], int n, int range)
+{
+    int B[range];
+
+    int C[n];
+
+    int i;
+
+    for(i=0; i<range; i++)
+    {
+        B[i] = 0;
+    }
+
+    for(i=0; i<n; i++)
+    {
+        C[i] = 0;
+    }
+
+    for(i=0; i<n; i++)
+    {
+        B[A[i]]++;
+    }
+
+    for(i=1; i<range; i++)
+    {
+        B[i] = B[i]+B[i-1];
+    }
+
+    for(i=0; i<n; i++)
+    {
+        C[B[A[i]]-1]=A[i];
+
+        B[A[i]]--;
+    }
+
+    for(i=0; i<n; i++)
+    {
+        A[i] = C[i];
     }
 }
