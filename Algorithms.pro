@@ -18,7 +18,11 @@ SOURCES += main.cpp \
     Queue\queue2s.cpp \
     Stack\expeval.cpp \
     Graph\graph.cpp \
-    Heap\minheap.cpp
+    Heap\minheap.cpp \
+    Tree/binarytree.cpp \
+    Tree/binarysearchtree.cpp \
+    Graph/directedgraph.cpp \
+    Graph/undirectedgraph.cpp
 
 HEADERS += \
     Recursion\recursion.h \
@@ -33,4 +37,8 @@ HEADERS += \
     Queue\queue2s.h \
     Stack\expeval.h \
     Graph\graph.h \
-    Heap\minheap.h
+    Heap\minheap.h \
+    Tree/binarytree.h \
+    Tree/binarysearchtree.h \
+    Graph/directedgraph.h \
+    Graph/undirectedgraph.h

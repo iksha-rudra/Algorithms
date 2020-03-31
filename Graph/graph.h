@@ -1,29 +1,65 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-
 class Graph
 {
 
 public:
-    // A structure to represent an adjacency list node
-    struct AdjListNode
+    struct Node
     {
         int dest;
-        struct AdjListNode* next;
+
+        int weight;
+
+        Node* next;
+
+        Node(int dest, int weight)
+        {
+            this->dest = dest;
+
+            this->weight = weight;
+
+            this->next = nullptr;
+        }
     };
 
-    // A structure to represent an adjacency list
-    struct AdjList
+    struct Edge
     {
-        struct AdjListNode *head;
+        int src;
+
+        int dest;
+
+        int weight;
+
+        Edge(int src,int dest, int weight):
+            src(src),dest(dest),weight(weight)
+        {
+
+        }
+
+        Edge()
+        {
+
+        }
     };
 
-    Graph();
+    Graph(int V);
 
-private:
+    virtual ~Graph();
+
+    void display();
+
+    virtual void createAdjList(Edge edges[], int E)=0;
+
+protected:
+
     int V;
-    struct AdjList* array;
+
+    Node **m_head;
+
+    void _createAdjList(int src, int dest, int weight);
+
+    void _init(int V);
 };
 
 #endif // GRAPH_H
