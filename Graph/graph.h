@@ -51,6 +51,10 @@ public:
 
     virtual void createAdjList(Edge edges[], int E)=0;
 
+    void BFS(int v);
+
+    void DFS(int v);
+
 protected:
 
     int V;

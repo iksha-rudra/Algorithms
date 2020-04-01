@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#define QUEUE_MAX 5
+#define QUEUE_MAX 50
 
 class Queue
 {

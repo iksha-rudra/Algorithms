@@ -69,25 +69,33 @@ void dataBST()
 
 void dataGraph()
 {
-    Graph::Edge edges[7];
+    Graph::Edge edges[11];
 
-    edges[0] = Graph::Edge(0,1,6);
-    edges[1] = Graph::Edge(1,2,7);
-    edges[2] = Graph::Edge(2,0,5);
-    edges[3] = Graph::Edge(2,1,4);
-    edges[4] = Graph::Edge(3,2,10);
-    edges[5] = Graph::Edge(4,5,1);
-    edges[6] = Graph::Edge(5,4,3);
+    edges[0] = Graph::Edge(0,1,1);
+    edges[1] = Graph::Edge(1,2,1);
+    edges[2] = Graph::Edge(1,3,1);
+    edges[3] = Graph::Edge(2,4,1);
+    edges[4] = Graph::Edge(2,5,1);
+    edges[5] = Graph::Edge(3,6,1);
+    edges[6] = Graph::Edge(3,7,1);
+    edges[7] = Graph::Edge(4,8,1);
+    edges[8] = Graph::Edge(5,8,1);
+    edges[9] = Graph::Edge(6,8,1);
+    edges[10] = Graph::Edge(7,8,1);
 
-    int V = 6;
+    int V = 9;
 
-    int E = 7;
+    int E = 11;
 
-    DirectedGraph graph(V);
+    UndirectedGraph graph(V);
 
     graph.createAdjList(edges,E);
 
     graph.display();
+
+    graph.BFS(0);
+
+    graph.DFS(0);
 }
 
 int main()
