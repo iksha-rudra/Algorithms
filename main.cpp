@@ -67,31 +67,46 @@ void dataBST()
     printf("Max: %d\n",tree.findMax());
 }
 
-void dataGraph()
+void dataGraph1()
 {
-    Graph graph(9);
+    Graph graph(Graph::Type_Directed);
 
-    graph.addEdge(0,1,1);
-    graph.addEdge(1,2,1);
-    graph.addEdge(1,3,1);
+    graph.addVertex(1);
+    graph.addVertex(2);
+    graph.addVertex(3);
+    graph.addVertex(4);
+    graph.addVertex(5);
+
+    graph.addEdge(1,2,10);
+    graph.addEdge(1,3,5);
     graph.addEdge(2,4,1);
-    graph.addEdge(2,5,1);
-    graph.addEdge(3,6,1);
-    graph.addEdge(3,7,1);
-    graph.addEdge(4,8,1);
-    graph.addEdge(5,8,1);
-    graph.addEdge(6,8,1);
-    graph.addEdge(7,8,1);
+    graph.addEdge(2,3,2);
+    graph.addEdge(3,2,3);
+    graph.addEdge(3,4,9);
+    graph.addEdge(3,5,2);
+    graph.addEdge(4,5,4);
+    graph.addEdge(5,1,2);
+    graph.addEdge(5,4,6);
+
 
     graph.display();
 
-//    graph.BFS(0);
-//    graph.printShortestPath(0,8);
+    graph.digkstra(1);
 
-    graph.DFS(0);
-    graph.printShortestPath(0,5);
+    graph.printShortestPath(1,2);
+    printf("\n");
+    graph.printShortestPath(1,3);
+    printf("\n");
+    graph.printShortestPath(1,4);
+    printf("\n");
+    graph.printShortestPath(1,5);
+    printf("\n");
 
-//    graph.DFS(0);
+//    graph.BFS(1);
+//    graph.printShortestPath(1,8);
+
+//    graph.DFS(1);
+//    graph.printShortestPath(1,5);
 }
 
 void heapOps()
@@ -112,9 +127,56 @@ void heapOps()
     printf("%d\n",H.extractMin().dist);
 }
 
+void dataGraph2()
+{
+    Graph graph(Graph::Type_Directed);
+
+    graph.addVertex(1);
+    graph.addVertex(2);
+    graph.addVertex(3);
+    graph.addVertex(4);
+    graph.addVertex(5);
+    graph.addVertex(6);
+
+    graph.addEdge(1,2,1);
+    graph.addEdge(1,4,6);
+    graph.addEdge(1,5,7);
+    graph.addEdge(2,3,1);
+    graph.addEdge(2,4,4);
+    graph.addEdge(3,4,2);
+    graph.addEdge(3,6,1);
+    graph.addEdge(4,5,3);
+    graph.addEdge(4,6,2);
+    graph.addEdge(5,6,2);
+
+
+    graph.display();
+
+    graph.digkstra(1);
+
+    graph.printShortestPath(1,2);
+    printf("\n");
+    graph.printShortestPath(1,3);
+    printf("\n");
+    graph.printShortestPath(1,4);
+    printf("\n");
+    graph.printShortestPath(1,5);
+    printf("\n");
+    graph.printShortestPath(1,6);
+    printf("\n");
+
+//    graph.BFS(1);
+//    graph.printShortestPath(1,8);
+
+//    graph.DFS(1);
+//    graph.printShortestPath(1,5);
+}
+
+
 int main()
 {
-    dataGraph();
+    dataGraph2();
+    //heapOps();
 
 	return 0;
 }

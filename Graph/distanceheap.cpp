@@ -33,7 +33,7 @@ DistanceHeap::DistanceHeap(Node A[], int size)
 {
     for(int i = 0; i < size; i++)
     {
-        m_Array[i] = A[i];
+        m_Array.push_back(A[i]);
     }
 
     m_size = size;
@@ -46,6 +46,18 @@ void DistanceHeap::buildHeap()
     for(int i = m_size/2-1; i >= 0; i--)
     {
         heapify(i,m_size);
+    }
+}
+
+bool DistanceHeap::isEmpty()
+{
+    if( !m_size )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -67,7 +79,7 @@ void DistanceHeap::insert(Node data)
 
     temp.dist = INT_MAX;
 
-    m_Array[m_size] = temp;
+    m_Array.push_back(temp);
 
     m_size++;
 

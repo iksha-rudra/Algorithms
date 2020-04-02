@@ -2,6 +2,10 @@
 #define GRAPH_H
 
 #include <bits/stdc++.h>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
 
 class Graph
 {
@@ -44,6 +48,8 @@ public:
 
     struct VNode
     {
+        int vID;
+
         int predec;
 
         int distFS;
@@ -52,8 +58,10 @@ public:
 
         ENode* head;
 
-        VNode()
+        VNode(int vertex)
         {
+            this->vID = vertex;
+
             this->predec = -1;
 
             this->distFS = INT_MAX;
@@ -64,37 +72,57 @@ public:
         }
     };
 
-    Graph(int V, Type type = Type_Undirected);
+    Graph(Type type);
 
     virtual ~Graph();
 
     void display();
 
-    void printShortestPath(int s, int v);
+    void printShortestPath(int u, int v);
 
-    void addEdge(int src, int dest, int weight);
+    void addEdge(int u, int v, int weight=0);
 
-    void BFS(int s);
+    void addVertex(int v);
 
-    void DFS(int s);
+    void removeVertex(int v);
+
+    void removeEdge(int u, int v);
+
+    vector<int> getNeighbours(int v);
+
+    int getNumberOfVertices();
+
+    int getNumberOfEdges();
+
+    int getEdgeWeight(int u, int v);
+
+    void setEdgeWeight(int u, int v, int weight);
+
+    void BFS(int v);
+
+    void DFS(int v);
+
+    void digkstra(int v);
 
 protected:
 
-    int V;
-
     Type m_type;
 
-    VNode **m_head;
+    unordered_map<int, int> m_map;
 
-    void _addEdge(int src, int dest, int weight);
+    vector<VNode*> m_head;
 
-    void _init(int V);
+    void _addEdge(int u, int v, int weight);
 
-    void _initSingleSource(int s);
+    void _initSingleSource(int v);
 
     void _deleteEdgeNodes(ENode *temp);
 
-    void _dfsVisit(int s);
+    void _dfsVisit(int v);
+
+    bool _contains(vector<int> list, int key);
+
+    VNode *_getVertex(int v);
 };
 
 #endif // GRAPH_H

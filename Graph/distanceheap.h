@@ -1,7 +1,9 @@
 #ifndef DISTANCEHEAP_H
 #define DISTANCEHEAP_H
 
-#define MAX_VERTEX 50
+#include <vector>
+
+using namespace std;
 
 class DistanceHeap
 {
@@ -39,9 +41,11 @@ public:
 
     void buildHeap();
 
+    bool isEmpty();
+
 private:
 
-    Node m_Array[MAX_VERTEX];
+    vector<Node> m_Array;
 
     int m_size;
 

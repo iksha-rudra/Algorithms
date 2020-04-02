@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include "Queue/linkedqueue.h"
 #include "Stack/linkedstack.h"
+#include "distanceheap.h"
 
-Graph::Graph(int V, Type type):
+Graph::Graph(Type type):
     m_type(type)
 {
-    _init(V);
+
 }
 
 Graph::~Graph()
 {
-    for( int i = 0 ; i < V; i++ )
+    for( int i = 0 ; i < m_head.size(); i++ )
     {
         ENode *head = m_head[i]->head;
 
@@ -19,8 +20,6 @@ Graph::~Graph()
 
         delete m_head[i];
     }
-
-    delete[] m_head;
 }
 
 void Graph::_deleteEdgeNodes(ENode *temp)
@@ -33,66 +32,64 @@ void Graph::_deleteEdgeNodes(ENode *temp)
     }
 }
 
-void Graph::_init(int V)
+void Graph::_initSingleSource(int v)
 {
-    m_head = new VNode*[V]();
+    VNode *vNode;
 
-    this->V = V;
-
-    for( int i = 0; i < V; i++ )
+    for( int i = 0; i < m_head.size(); i++ )
     {
-        m_head[i] = new VNode();
-    }
-}
+        vNode = m_head[i];
 
-void Graph::_initSingleSource(int s)
-{
-    for( int i = 0; i < V; i++ )
-    {
-        m_head[i]->predec = -1;
+        vNode->predec = -1;
 
-        m_head[i]->distFS = INT_MAX;
+        vNode->distFS = INT_MAX;
 
-        m_head[i]->col = Color_White;
+        vNode->col = Color_White;
     }
 
-    m_head[s]->predec = -1;
+    vNode = _getVertex(v);
 
-    m_head[s]->distFS = 0;
+    vNode->predec = -1;
 
-    m_head[s]->col = Color_Grey;
+    vNode->distFS = 0;
+
+    vNode->col = Color_Grey;
 }
 
-void Graph::_addEdge(int src, int dest, int weight)
+void Graph::_addEdge(int u, int v, int weight)
 {
-    ENode *newNode = new ENode(dest,weight);
+    VNode *uNode = _getVertex(u);
 
-    ENode *e = m_head[src]->head;
+    ENode *newNode = new ENode(v,weight);
 
-    if( !e )
+    ENode *eNode = uNode->head;
+
+    if( !eNode )
     {
-        m_head[src]->head = newNode;
+        uNode->head = newNode;
     }
     else
     {
-        while(e->next)
+        while(eNode->next)
         {
-            e = e->next;
+            eNode = eNode->next;
         }
 
-        e->next = newNode;
+        eNode->next = newNode;
     }
 }
 
 void Graph::display()
 {
-    for( int i = 0; i < V; i++)
+    for( unsigned i = 0; i < m_head.size(); i++)
     {
-        ENode *e = m_head[i]->head;
+        VNode *vNode = m_head[i];
+
+        ENode *e = vNode->head;
 
         while(e)
         {
-            printf("( %d, %d, %d ) ", i, e->dest, e->weight );
+            printf("( %d, %d, %d ) ", vNode->vID, e->dest, e->weight );
 
             e = e->next;
         }
@@ -101,104 +98,253 @@ void Graph::display()
     }
 }
 
-void Graph::printShortestPath(int s, int v)
+void Graph::printShortestPath(int u, int v)
 {
-    if( s == v)
+    if( u == v)
     {
-        printf("%d-->",s);
+        printf("%d-->",u);
     }
-    else if( m_head[v]->predec == -1)
+    else if( _getVertex(v)->predec == -1)
     {
-        printf("No path from %d to %d exists.\n", s,v);
+        printf("No path from %d to %d exists.\n", u,v);
     }
     else
     {
-        printShortestPath(s, m_head[v]->predec);
+        printShortestPath(u, _getVertex(v)->predec);
 
         printf("%d-->",v);
     }
 }
 
-void Graph::addEdge(int src, int dest, int weight)
+void Graph::addEdge(int u, int v, int weight)
 {
-    _addEdge(src, dest, weight);
+    _addEdge(u, v, weight);
 
     if( m_type == Type_Undirected)
     {
-        _addEdge(dest, src, weight);
+        _addEdge(v, u, weight);
     }
 }
 
-void Graph::BFS(int s)
+void Graph::addVertex(int v)
 {
-    _initSingleSource(s);
+    VNode *newNode = new VNode(v);
+
+    int index = m_head.size();
+
+    m_map[v] = index;
+
+    m_head.push_back(newNode);
+}
+
+void Graph::removeVertex(int v)
+{
+
+}
+
+void Graph::removeEdge(int u, int v)
+{
+
+}
+
+vector<int> Graph::getNeighbours(int v)
+{
+    vector <int> listVertex;
+
+    VNode *vNode = _getVertex(v);
+
+    ENode *eNode = vNode->head;
+
+    while(eNode)
+    {
+        listVertex.push_back(eNode->dest);
+
+        eNode = eNode->next;
+    }
+
+    return listVertex;
+}
+
+int Graph::getNumberOfVertices()
+{
+
+}
+
+int Graph::getNumberOfEdges()
+{
+
+}
+
+int Graph::getEdgeWeight(int u, int v)
+{
+    int weight = -1;
+
+    VNode *uNode = _getVertex(u);
+
+    ENode *eNode = uNode->head;
+
+    while(eNode)
+    {
+        if( eNode->dest == v)
+        {
+            weight = eNode->weight;
+        }
+
+        eNode = eNode->next;
+    }
+
+    return weight;
+}
+
+void Graph::setEdgeWeight(int u, int v, int weight)
+{
+
+}
+
+void Graph::BFS(int v)
+{
+    _initSingleSource(v);
 
     LinkedQueue<int> Q;
 
-    Q.enqueue(s);
+    Q.enqueue(v);
 
     while( !Q.isEmpty() )
     {
         int q = Q.dequeue();
 
-        VNode *u = m_head[q];
+        VNode *qNode = _getVertex(q);
 
-        ENode *e = m_head[q]->head;
+        ENode *eNode = qNode->head;
 
-        while( e )
+        while( eNode )
         {
-            int w = e->dest;
+            int w = eNode->dest;
 
-            VNode *v = m_head[w];
+            VNode *wNode = _getVertex(w);
 
-            if( v->col == Color_White )
+            if( wNode->col == Color_White )
             {
-                v->predec = q;
+                wNode->predec = q;
 
-                v->distFS = u->distFS + 1;
+                wNode->distFS = qNode->distFS + 1;
 
-                v->col = Color_Grey;
+                wNode->col = Color_Grey;
 
                 Q.enqueue(w);
             }
 
-            e = e->next;
+            eNode = eNode->next;
         }
 
-        u->col = Color_Black;
+        qNode->col = Color_Black;
     }
 }
 
-void Graph::_dfsVisit(int s)
+void Graph::_dfsVisit(int v)
 {
-    VNode* u = m_head[s];
+    VNode* vNode = _getVertex(v);
 
-    ENode *e = u->head;
+    ENode *eNode = vNode->head;
 
-    while( e )
+    while( eNode )
     {
-        int w = e->dest;
+        int w = eNode->dest;
 
-        VNode* v = m_head[w];
+        VNode* wNode = _getVertex(w);
 
-        if( v->col == Color_White )
+        if( wNode->col == Color_White )
         {
-            v->predec = s;
+            wNode->predec = w;
 
-            v->col = Color_Grey;
+            wNode->col = Color_Grey;
 
             _dfsVisit(w);
         }
 
-        e = e->next;
+        eNode = eNode->next;
     }
 
-    u->col = Color_Black;
+    vNode->col = Color_Black;
 }
 
-void Graph::DFS(int s)
+bool Graph::_contains(vector<int> list, int key)
 {
-    _initSingleSource(s);
+    for(int i = 0; i < list.size(); i++ )
+    {
+        if( list.at(i) == key )
+        {
+            return true;
+        }
+    }
 
-    _dfsVisit(s);
+    return false;
+}
+
+inline Graph::VNode *Graph::_getVertex(int v)
+{
+    VNode* vNode = m_head[m_map[v]];
+
+    return vNode;
+}
+
+void Graph::DFS(int v)
+{
+    _initSingleSource(v);
+
+    _dfsVisit(v);
+}
+
+void Graph::digkstra(int v)
+{
+    _initSingleSource(v);
+
+    vector<int> selectedList;
+
+    DistanceHeap dHeap;
+
+    for(int i=0; i < m_head.size(); i++)
+    {
+        VNode *vNode = m_head[i];
+
+        DistanceHeap::Node dNode(vNode->vID,vNode->distFS);
+
+        dHeap.insert(dNode);
+    }
+
+    while(!dHeap.isEmpty())
+    {
+        DistanceHeap::Node dNode = dHeap.extractMin();
+
+        int u = dNode.vertex;
+
+        selectedList.push_back(u);
+
+        vector<int> listNeighbours = getNeighbours(u);
+
+        for(int i = 0; i< listNeighbours.size(); i++)
+        {
+            int v = listNeighbours.at(i);
+
+            if( !_contains(selectedList,v) )
+            {
+                int weight = getEdgeWeight(u, v);
+
+                VNode* uNode = _getVertex(u);
+
+                VNode *vNode = _getVertex(v);
+
+                if( vNode->distFS > ( uNode->distFS + weight ) )
+                {
+                    vNode->distFS = uNode->distFS + weight;
+
+                    vNode->predec = u;
+
+                    DistanceHeap::Node dNode(vNode->vID, vNode->distFS);
+
+                    dHeap.decreaseKey(dNode);
+                }
+            }
+        }
+    }
 }
