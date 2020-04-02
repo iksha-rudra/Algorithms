@@ -3,7 +3,8 @@
 #include "Queue/linkedqueue.h"
 #include "Stack/linkedstack.h"
 
-Graph::Graph(int V)
+Graph::Graph(int V, Type type):
+    m_type(type)
 {
     _init(V);
 }
@@ -12,21 +13,74 @@ Graph::~Graph()
 {
     for( int i = 0 ; i < V; i++ )
     {
-        delete[] m_head[i];
+        ENode *head = m_head[i]->head;
+
+        _deleteEdgeNodes(head);
+
+        delete m_head[i];
     }
 
     delete[] m_head;
 }
 
+void Graph::_deleteEdgeNodes(ENode *temp)
+{
+    if(temp)
+    {
+        _deleteEdgeNodes(temp->next);
+
+        delete temp;
+    }
+}
+
 void Graph::_init(int V)
 {
-    m_head = new Node*[V]();
+    m_head = new VNode*[V]();
 
     this->V = V;
 
     for( int i = 0; i < V; i++ )
     {
-        m_head[i] = nullptr;
+        m_head[i] = new VNode();
+    }
+}
+
+void Graph::_initSingleSource(int s)
+{
+    for( int i = 0; i < V; i++ )
+    {
+        m_head[i]->predec = -1;
+
+        m_head[i]->distFS = INT_MAX;
+
+        m_head[i]->col = Color_White;
+    }
+
+    m_head[s]->predec = -1;
+
+    m_head[s]->distFS = 0;
+
+    m_head[s]->col = Color_Grey;
+}
+
+void Graph::_addEdge(int src, int dest, int weight)
+{
+    ENode *newNode = new ENode(dest,weight);
+
+    ENode *e = m_head[src]->head;
+
+    if( !e )
+    {
+        m_head[src]->head = newNode;
+    }
+    else
+    {
+        while(e->next)
+        {
+            e = e->next;
+        }
+
+        e->next = newNode;
     }
 }
 
@@ -34,108 +88,117 @@ void Graph::display()
 {
     for( int i = 0; i < V; i++)
     {
-        Node *t = m_head[i];
+        ENode *e = m_head[i]->head;
 
-        while(t)
+        while(e)
         {
-            printf("( %d, %d, %d ) ", i, t->dest, t->weight );
+            printf("( %d, %d, %d ) ", i, e->dest, e->weight );
 
-            t = t->next;
+            e = e->next;
         }
 
         printf("\n");
     }
 }
 
-void Graph::BFS(int v)
+void Graph::printShortestPath(int s, int v)
 {
-    bool visited[V];
+    if( s == v)
+    {
+        printf("%d-->",s);
+    }
+    else if( m_head[v]->predec == -1)
+    {
+        printf("No path from %d to %d exists.\n", s,v);
+    }
+    else
+    {
+        printShortestPath(s, m_head[v]->predec);
+
+        printf("%d-->",v);
+    }
+}
+
+void Graph::addEdge(int src, int dest, int weight)
+{
+    _addEdge(src, dest, weight);
+
+    if( m_type == Type_Undirected)
+    {
+        _addEdge(dest, src, weight);
+    }
+}
+
+void Graph::BFS(int s)
+{
+    _initSingleSource(s);
 
     LinkedQueue<int> Q;
 
-    for( int i = 0; i < V; i++)
+    Q.enqueue(s);
+
+    while( !Q.isEmpty() )
     {
-        visited[i] = false;
-    }
+        int q = Q.dequeue();
 
-    Q.enqueue(v);
+        VNode *u = m_head[q];
 
-    visited[v] = true;
+        ENode *e = m_head[q]->head;
 
-    printf("%d-->",v);
-
-    while(!Q.isEmpty())
-    {
-        int u = Q.dequeue();
-
-        Node *t = m_head[u];
-
-        while(t)
+        while( e )
         {
-            int w = t->dest;
+            int w = e->dest;
 
-            if( !visited[w] )
+            VNode *v = m_head[w];
+
+            if( v->col == Color_White )
             {
-                visited[w] = true;
+                v->predec = q;
 
-                printf("%d-->",w);
+                v->distFS = u->distFS + 1;
+
+                v->col = Color_Grey;
 
                 Q.enqueue(w);
             }
 
-            t = t->next;
+            e = e->next;
         }
-    }
 
-    printf("\n");
+        u->col = Color_Black;
+    }
 }
 
-void Graph::DFS(int v)
+void Graph::_dfsVisit(int s)
 {
-    bool visited[V];
+    VNode* u = m_head[s];
 
-    LinkedStack S;
+    ENode *e = u->head;
 
-    for( int i = 0; i < V; i++)
+    while( e )
     {
-        visited[i] = false;
-    }
+        int w = e->dest;
 
-    S.push(v);
+        VNode* v = m_head[w];
 
-    while(!S.isEmpty())
-    {
-        int u = S.pop();
-
-        if(visited[u])
+        if( v->col == Color_White )
         {
-            continue;
+            v->predec = s;
+
+            v->col = Color_Grey;
+
+            _dfsVisit(w);
         }
 
-        visited[u] = true;
-
-        printf("%d-->",u);
-
-        Node *t = m_head[u];
-
-        while(t)
-        {
-            int w = t->dest;
-
-            S.push(w);
-
-            t = t->next;
-        }
+        e = e->next;
     }
 
-    printf("\n");
+    u->col = Color_Black;
 }
 
-void Graph::_createAdjList(int src, int dest, int weight)
+void Graph::DFS(int s)
 {
-    Node *newNode = new Node(dest,weight);
+    _initSingleSource(s);
 
-    newNode->next = m_head[src];
-
-    m_head[src] = newNode;
+    _dfsVisit(s);
 }

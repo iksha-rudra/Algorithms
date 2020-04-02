@@ -1,8 +1,10 @@
 #include "minheap.h"
 #include "General/utility.h"
 #include <stdio.h>
+#include <bits/stdc++.h>
 
-MinHeap::MinHeap()
+MinHeap::MinHeap():
+    m_size(0)
 {
 
 }
@@ -87,7 +89,7 @@ void MinHeap::decreaseKey(int i, int key)
 
 void MinHeap::insert(int key)
 {
-    m_Array[m_size] = 9999;
+    m_Array[m_size] = INT_MAX;
 
     m_size++;
 

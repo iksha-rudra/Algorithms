@@ -1,19 +1,38 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <bits/stdc++.h>
+
 class Graph
 {
 
 public:
-    struct Node
+
+    enum Color
+    {
+        Color_White,
+
+        Color_Grey,
+
+        Color_Black
+    };
+
+    enum Type
+    {
+        Type_Undirected,
+
+        Type_Directed
+    };
+
+    struct ENode
     {
         int dest;
 
         int weight;
 
-        Node* next;
+        ENode* next;
 
-        Node(int dest, int weight)
+        ENode(int dest, int weight)
         {
             this->dest = dest;
 
@@ -23,47 +42,59 @@ public:
         }
     };
 
-    struct Edge
+    struct VNode
     {
-        int src;
+        int predec;
 
-        int dest;
+        int distFS;
 
-        int weight;
+        Color col;
 
-        Edge(int src,int dest, int weight):
-            src(src),dest(dest),weight(weight)
+        ENode* head;
+
+        VNode()
         {
+            this->predec = -1;
 
-        }
+            this->distFS = INT_MAX;
 
-        Edge()
-        {
+            this->col = Color_White;
 
+            this->head = nullptr;
         }
     };
 
-    Graph(int V);
+    Graph(int V, Type type = Type_Undirected);
 
     virtual ~Graph();
 
     void display();
 
-    virtual void createAdjList(Edge edges[], int E)=0;
+    void printShortestPath(int s, int v);
 
-    void BFS(int v);
+    void addEdge(int src, int dest, int weight);
 
-    void DFS(int v);
+    void BFS(int s);
+
+    void DFS(int s);
 
 protected:
 
     int V;
 
-    Node **m_head;
+    Type m_type;
 
-    void _createAdjList(int src, int dest, int weight);
+    VNode **m_head;
+
+    void _addEdge(int src, int dest, int weight);
 
     void _init(int V);
+
+    void _initSingleSource(int s);
+
+    void _deleteEdgeNodes(ENode *temp);
+
+    void _dfsVisit(int s);
 };
 
 #endif // GRAPH_H

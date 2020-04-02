@@ -6,6 +6,7 @@
 class MinHeap
 {
 public:
+
     MinHeap();
 
     MinHeap(int A[], int size);

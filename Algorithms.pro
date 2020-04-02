@@ -21,8 +21,7 @@ SOURCES += main.cpp \
     Heap\minheap.cpp \
     Tree/binarytree.cpp \
     Tree/binarysearchtree.cpp \
-    Graph/directedgraph.cpp \
-    Graph/undirectedgraph.cpp
+    Graph/distanceheap.cpp
 
 HEADERS += \
     Recursion\recursion.h \
@@ -40,5 +39,4 @@ HEADERS += \
     Heap\minheap.h \
     Tree/binarytree.h \
     Tree/binarysearchtree.h \
-    Graph/directedgraph.h \
-    Graph/undirectedgraph.h
+    Graph/distanceheap.h

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "Tree/binarysearchtree.h"
-#include "Graph/directedgraph.h"
-#include "Graph/undirectedgraph.h"
+#include "Graph/graph.h"
+#include "Graph/distanceheap.h"
 
 using namespace std;
 
@@ -69,33 +69,47 @@ void dataBST()
 
 void dataGraph()
 {
-    Graph::Edge edges[11];
+    Graph graph(9);
 
-    edges[0] = Graph::Edge(0,1,1);
-    edges[1] = Graph::Edge(1,2,1);
-    edges[2] = Graph::Edge(1,3,1);
-    edges[3] = Graph::Edge(2,4,1);
-    edges[4] = Graph::Edge(2,5,1);
-    edges[5] = Graph::Edge(3,6,1);
-    edges[6] = Graph::Edge(3,7,1);
-    edges[7] = Graph::Edge(4,8,1);
-    edges[8] = Graph::Edge(5,8,1);
-    edges[9] = Graph::Edge(6,8,1);
-    edges[10] = Graph::Edge(7,8,1);
-
-    int V = 9;
-
-    int E = 11;
-
-    UndirectedGraph graph(V);
-
-    graph.createAdjList(edges,E);
+    graph.addEdge(0,1,1);
+    graph.addEdge(1,2,1);
+    graph.addEdge(1,3,1);
+    graph.addEdge(2,4,1);
+    graph.addEdge(2,5,1);
+    graph.addEdge(3,6,1);
+    graph.addEdge(3,7,1);
+    graph.addEdge(4,8,1);
+    graph.addEdge(5,8,1);
+    graph.addEdge(6,8,1);
+    graph.addEdge(7,8,1);
 
     graph.display();
 
-    graph.BFS(0);
+//    graph.BFS(0);
+//    graph.printShortestPath(0,8);
 
     graph.DFS(0);
+    graph.printShortestPath(0,5);
+
+//    graph.DFS(0);
+}
+
+void heapOps()
+{
+    DistanceHeap H;
+
+    H.insert(DistanceHeap::Node(1,5));
+    H.insert(DistanceHeap::Node(2,55));
+    H.insert(DistanceHeap::Node(3,1));
+    H.insert(DistanceHeap::Node(4,567));
+    H.insert(DistanceHeap::Node(5,9));
+
+    printf("%d\n",H.extractMin().dist);
+    printf("%d\n",H.extractMin().dist);
+    printf("%d\n",H.extractMin().dist);
+    printf("%d\n",H.extractMin().dist);
+    printf("%d\n",H.extractMin().dist);
+    printf("%d\n",H.extractMin().dist);
 }
 
 int main()
