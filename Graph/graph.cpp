@@ -211,33 +211,31 @@ void Graph::BFS(int v)
 
     while( !Q.isEmpty() )
     {
-        int q = Q.dequeue();
+        int u = Q.dequeue();
 
-        VNode *qNode = _getVertex(q);
+        vector<int> listNeighbours = getNeighbours(u);
 
-        ENode *eNode = qNode->head;
+        VNode *uNode = _getVertex(u);
 
-        while( eNode )
+        for(int i = 0; i< listNeighbours.size(); i++)
         {
-            int w = eNode->dest;
+            int w = listNeighbours.at(i);
 
             VNode *wNode = _getVertex(w);
 
             if( wNode->col == Color_White )
             {
-                wNode->predec = q;
+                wNode->predec = u;
 
-                wNode->distFS = qNode->distFS + 1;
+                wNode->distFS = uNode->distFS + 1;
 
                 wNode->col = Color_Grey;
 
                 Q.enqueue(w);
             }
-
-            eNode = eNode->next;
         }
 
-        qNode->col = Color_Black;
+        uNode->col = Color_Black;
     }
 }
 

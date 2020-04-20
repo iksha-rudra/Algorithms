@@ -9,6 +9,11 @@ MinHeap::MinHeap():
 
 }
 
+MinHeap::MinHeap(vector<Point> pointList)
+{
+
+}
+
 MinHeap::MinHeap(int A[], int size)
 {
     for(int i = 0; i < size; i++)

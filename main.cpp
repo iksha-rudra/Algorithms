@@ -3,6 +3,8 @@
 #include "Graph/graph.h"
 #include "Graph/distanceheap.h"
 
+#include "CGAL/cgal.h"
+
 using namespace std;
 
 void dataBST()
@@ -91,19 +93,19 @@ void dataGraph1()
 
     graph.display();
 
-    graph.digkstra(1);
+//    graph.digkstra(1);
 
-    graph.printShortestPath(1,2);
-    printf("\n");
-    graph.printShortestPath(1,3);
-    printf("\n");
-    graph.printShortestPath(1,4);
-    printf("\n");
+//    graph.printShortestPath(1,2);
+//    printf("\n");
+//    graph.printShortestPath(1,3);
+//    printf("\n");
+//    graph.printShortestPath(1,4);
+//    printf("\n");
+//    graph.printShortestPath(1,5);
+//    printf("\n");
+
+    graph.BFS(1);
     graph.printShortestPath(1,5);
-    printf("\n");
-
-//    graph.BFS(1);
-//    graph.printShortestPath(1,8);
 
 //    graph.DFS(1);
 //    graph.printShortestPath(1,5);
@@ -165,18 +167,25 @@ void dataGraph2()
     graph.printShortestPath(1,6);
     printf("\n");
 
-//    graph.BFS(1);
-//    graph.printShortestPath(1,8);
+    graph.BFS(1);
+    graph.printShortestPath(1,3);
 
 //    graph.DFS(1);
 //    graph.printShortestPath(1,5);
 }
 
+void cgal()
+{
+    CGAlgorithms::Point p1(1,1);
+    CGAlgorithms::Point p2(4,4);
+    CGAlgorithms::Point p3(1,4);
+    CGAlgorithms::Point p4(2,2);
+
+    printf("%d\n",CGAlgorithms::SegmentsIntersect(p1,p2,p3,p4));
+}
 
 int main()
 {
-    dataGraph2();
-    //heapOps();
-
+    cgal();
 	return 0;
 }
